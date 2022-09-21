@@ -18,12 +18,12 @@ package io.seata.samples.tcc.service;
 import io.seata.core.context.RootContext;
 import io.seata.core.exception.TransactionException;
 import io.seata.samples.tcc.action.TccActionTwo;
-import io.seata.samples.tcc.action.impl.TccActionOneImpl;
 import io.seata.tm.api.DefaultSeataClient;
 import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
 import io.seata.tm.api.SeataClient;
 import io.seata.tm.api.business.ManualTccActionOne;
+import io.seata.tm.api.business.TccActionOneImpl;
 
 /**
  * The type Tcc transaction service.
@@ -49,8 +49,10 @@ public class TccTransactionService {
 
             SeataClient seataClient = new DefaultSeataClient();
 
-            ManualTccActionOne tccActionOne = new TccActionOneImpl();
-            ManualTccActionOne seataClientProxy  = seataClient.createProxy(tccActionOne);
+            seataClient.init("tcc-sample", "my_test_tx_group");
+
+            TccActionOneImpl tccActionOne = new TccActionOneImpl();
+            TccActionOneImpl seataClientProxy  = seataClient.createProxy(tccActionOne);
             boolean result1 = seataClientProxy.prepare(null, 1);
             
             

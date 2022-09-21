@@ -16,8 +16,8 @@
 package io.seata.samples.tcc.action.impl;
 
 import io.seata.rm.tcc.api.BusinessActionContext;
-import io.seata.samples.tcc.action.ResultHolder;
 import io.seata.samples.tcc.action.TccActionTwo;
+import io.seata.tm.api.business.ResultHolder;
 
 /**
  * The type Tcc action two.
