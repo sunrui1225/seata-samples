@@ -16,25 +16,26 @@
 package io.seata.samples.tcc.action;
 
 import io.seata.commonapi.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.LocalTCC;
 import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 
 /**
- * The interface Tcc action two.
+ * The interface Tcc action one.
  *
  * @author zhangsen
  */
-//@LocalTCC
-public interface TccActionTwo {
+@LocalTCC
+public interface TccActionOne {
 
     /**
      * Prepare boolean.
      *
      * @param actionContext the action context
-     * @param b             the b
+     * @param a             the a
      * @return the boolean
      */
-    @TwoPhaseBusinessAction(name = "TccActionTwo", commitMethod = "commit", rollbackMethod = "rollback")
-    public boolean prepare(BusinessActionContext actionContext, String b);
+    @TwoPhaseBusinessAction(name = "TccActionOne", commitMethod = "commit", rollbackMethod = "rollback")
+    public boolean prepare(BusinessActionContext actionContext, int a);
 
     /**
      * Commit boolean.
@@ -51,5 +52,4 @@ public interface TccActionTwo {
      * @return the boolean
      */
     public boolean rollback(BusinessActionContext actionContext);
-
 }
