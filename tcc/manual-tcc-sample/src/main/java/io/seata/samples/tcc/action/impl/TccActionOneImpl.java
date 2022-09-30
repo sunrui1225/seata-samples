@@ -28,6 +28,7 @@ public class TccActionOneImpl implements TccActionOne {
 
     @Override
     public boolean prepare(BusinessActionContext actionContext, int a) {
+        System.out.println(actionContext);
 //        String xid = actionContext.getXid();
 //        System.out.println("TccActionOne prepare, xid:" + xid);
         return true;
