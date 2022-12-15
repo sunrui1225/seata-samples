@@ -22,7 +22,12 @@
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
-            <version>1.6.68-SNAPSHOT</version>
+            <version>1.6.66-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.10.1</version>
         </dependency>
 
     </dependencies>

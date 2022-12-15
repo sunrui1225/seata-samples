@@ -15,12 +15,10 @@
  */
 package io.seata.samples.tcc.starter;
 
+import io.seata.core.exception.TransactionException;
 import io.seata.samples.tcc.ApplicationKeeper;
-import io.seata.samples.tcc.action.impl.TccActionOneImpl;
-import io.seata.samples.tcc.action.impl.TccActionTwoImpl;
 import io.seata.samples.tcc.service.TccTransactionService;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * The type Local tcc transaction starter.
@@ -40,28 +38,14 @@ public class ManualTccTransactionStarter {
     static TccTransactionService tccTransactionService = null;
 
     /**
-     * The Tcc action one.
-     */
-    static TccActionOneImpl tccActionOne = null;
-
-    /**
-     * The Tcc action two.
-     */
-    static TccActionTwoImpl tccActionTwo = null;
-
-    /**
      * The entry point of application.
      *
      * @param args the input arguments
      * @throws InterruptedException the interrupted exception
      */
-    public static void main(String[] args) throws Exception {
-        applicationContext = new ClassPathXmlApplicationContext(new String[] {"spring/seata-tcc.xml"});
+    public static void main(String[] args) throws InterruptedException, TransactionException, InstantiationException, IllegalAccessException {
 
-        tccTransactionService = (TccTransactionService)applicationContext.getBean("tccTransactionService");
-
-        tccActionOne = (TccActionOneImpl)applicationContext.getBean("tccActionOne");
-        tccActionTwo = (TccActionTwoImpl)applicationContext.getBean("tccActionTwo");
+        tccTransactionService = new TccTransactionService();
 
         //分布式事务提交demo
         transactionCommitDemo();
@@ -69,7 +53,7 @@ public class ManualTccTransactionStarter {
         new ApplicationKeeper(applicationContext).keep();
     }
 
-    private static void transactionCommitDemo() throws Exception {
+    private static void transactionCommitDemo() throws InterruptedException, TransactionException, InstantiationException, IllegalAccessException {
         String txId = tccTransactionService.doTransactionCommit();
         System.out.println(txId);
 //        Assert.isTrue(StringUtils.isNotBlank(txId), "事务开启失败");

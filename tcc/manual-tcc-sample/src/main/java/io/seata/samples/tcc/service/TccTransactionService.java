@@ -16,9 +16,12 @@
 package io.seata.samples.tcc.service;
 
 import io.seata.core.context.RootContext;
+import io.seata.core.exception.TransactionException;
 import io.seata.manualapi.api.SeataClient;
+import io.seata.samples.tcc.action.TccActionOne;
 import io.seata.samples.tcc.action.TccActionTwo;
 import io.seata.samples.tcc.action.impl.TccActionOneImpl;
+import io.seata.samples.tcc.action.impl.TccActionTwoImpl;
 import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
 
@@ -38,23 +41,21 @@ public class TccTransactionService {
      * @return string string
      */
 
-    public String doTransactionCommit() throws Exception {
+    public String doTransactionCommit() throws TransactionException, InstantiationException, IllegalAccessException {
+
+        SeataClient.init("tcc-sample", "my_test_tx_group");
         
         GlobalTransaction tx = GlobalTransactionContext.getCurrentOrCreate();
         try {
             tx.begin(60000, "testBiz");
+            TccActionOne seataClientProxyOne  = SeataClient.createProxy(TccActionOneImpl.class);
+            boolean result1 = seataClientProxyOne.prepare(null, 1);
 
-            SeataClient seataClient = new SeataClient();
-
-            seataClient.init("tcc-sample", "my_test_tx_group");
-
-            TccActionOneImpl tccActionOne = new TccActionOneImpl();
-            TccActionOneImpl seataClientProxy  = seataClient.createProxy(tccActionOne);
-            boolean result1 = seataClientProxy.prepare(null, 1);
-            
+            TccActionTwo seataClientProxyTwo = SeataClient.createProxy(TccActionTwoImpl.class);
+            boolean result2 = seataClientProxyTwo.prepare(null, "A");
             
             //if data negative rollback else commit
-            if (result1) {
+            if (result1 && result2) {
                 tx.commit();
             } else {
                 tx.rollback();
