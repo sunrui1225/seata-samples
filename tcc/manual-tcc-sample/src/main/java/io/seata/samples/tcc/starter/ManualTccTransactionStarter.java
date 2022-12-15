@@ -15,16 +15,12 @@
  */
 package io.seata.samples.tcc.starter;
 
-import io.seata.common.util.StringUtils;
-import io.seata.core.exception.TransactionException;
 import io.seata.samples.tcc.ApplicationKeeper;
+import io.seata.samples.tcc.action.impl.TccActionOneImpl;
 import io.seata.samples.tcc.action.impl.TccActionTwoImpl;
 import io.seata.samples.tcc.service.TccTransactionService;
-import io.seata.tm.api.business.ResultHolder;
-import io.seata.tm.api.business.TccActionOneImpl;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.util.Assert;
 
 /**
  * The type Local tcc transaction starter.
@@ -59,7 +55,7 @@ public class ManualTccTransactionStarter {
      * @param args the input arguments
      * @throws InterruptedException the interrupted exception
      */
-    public static void main(String[] args) throws InterruptedException, TransactionException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         applicationContext = new ClassPathXmlApplicationContext(new String[] {"spring/seata-tcc.xml"});
 
         tccTransactionService = (TccTransactionService)applicationContext.getBean("tccTransactionService");
@@ -73,7 +69,7 @@ public class ManualTccTransactionStarter {
         new ApplicationKeeper(applicationContext).keep();
     }
 
-    private static void transactionCommitDemo() throws InterruptedException, TransactionException, InstantiationException, IllegalAccessException {
+    private static void transactionCommitDemo() throws Exception {
         String txId = tccTransactionService.doTransactionCommit();
         System.out.println(txId);
 //        Assert.isTrue(StringUtils.isNotBlank(txId), "事务开启失败");

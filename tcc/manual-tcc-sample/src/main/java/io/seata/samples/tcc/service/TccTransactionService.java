@@ -16,14 +16,11 @@
 package io.seata.samples.tcc.service;
 
 import io.seata.core.context.RootContext;
-import io.seata.core.exception.TransactionException;
+import io.seata.manualapi.api.SeataClient;
 import io.seata.samples.tcc.action.TccActionTwo;
-import io.seata.tm.api.DefaultSeataClient;
+import io.seata.samples.tcc.action.impl.TccActionOneImpl;
 import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
-import io.seata.tm.api.SeataClient;
-import io.seata.tm.api.business.ManualTccActionOne;
-import io.seata.tm.api.business.TccActionOneImpl;
 
 /**
  * The type Tcc transaction service.
@@ -41,13 +38,13 @@ public class TccTransactionService {
      * @return string string
      */
 
-    public String doTransactionCommit() throws TransactionException, InstantiationException, IllegalAccessException {
+    public String doTransactionCommit() throws Exception {
         
         GlobalTransaction tx = GlobalTransactionContext.getCurrentOrCreate();
         try {
             tx.begin(60000, "testBiz");
 
-            SeataClient seataClient = new DefaultSeataClient();
+            SeataClient seataClient = new SeataClient();
 
             seataClient.init("tcc-sample", "my_test_tx_group");
 

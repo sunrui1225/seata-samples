@@ -33,6 +33,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>
         </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.6.72-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
