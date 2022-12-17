@@ -20,6 +20,8 @@ import io.seata.samples.tcc.ApplicationKeeper;
 import io.seata.samples.tcc.service.TccTransactionService;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * The type Local tcc transaction starter.
  *
@@ -43,6 +45,7 @@ public class ManualTccTransactionStarter {
      * @param args the input arguments
      * @throws InterruptedException the interrupted exception
      */
+
     public static void main(String[] args) throws Exception {
 
         tccTransactionService = new TccTransactionService();
@@ -54,6 +57,7 @@ public class ManualTccTransactionStarter {
     }
 
     private static void transactionCommitDemo() throws Exception {
+
         String txId = tccTransactionService.doTransactionCommit();
         System.out.println(txId);
 //        Assert.isTrue(StringUtils.isNotBlank(txId), "事务开启失败");

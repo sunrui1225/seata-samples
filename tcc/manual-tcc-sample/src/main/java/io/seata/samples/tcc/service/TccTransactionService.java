@@ -25,15 +25,14 @@ import io.seata.samples.tcc.action.impl.TccActionTwoImpl;
 import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * The type Tcc transaction service.
  *
  * @author zhangsen
  */
 public class TccTransactionService {
-    
-
-    private TccActionTwo tccActionTwo;
 
     /**
      * 发起分布式事务
@@ -44,18 +43,22 @@ public class TccTransactionService {
     public String doTransactionCommit() throws Exception {
 
         SeataClient.init("tcc-sample", "my_test_tx_group");
-        
+
         GlobalTransaction tx = GlobalTransactionContext.getCurrentOrCreate();
+
+        TccActionOne tccActionOne = SeataClient.createProxy(new TccActionOneImpl());
+        TccActionTwo tccActionTwo = SeataClient.createProxy(new TccActionTwoImpl());
+
         try {
             tx.begin(60000, "testBiz");
-            TccActionOneImpl tccActionOneImpl = new TccActionOneImpl();
-            TccActionOne seataClientProxyOne  = SeataClient.createProxy(tccActionOneImpl);
+            
+            TccActionOne seataClientProxyOne = SeataClient.createProxy(tccActionOne);
             boolean result1 = seataClientProxyOne.prepare(null, 1);
 
-            TccActionTwoImpl tccActionTwoImpl = new TccActionTwoImpl();
-            TccActionTwo seataClientProxyTwo = SeataClient.createProxy(tccActionTwoImpl);
+            TccActionTwo seataClientProxyTwo = SeataClient.createProxy(tccActionTwo);
+
             boolean result2 = seataClientProxyTwo.prepare(null, "A");
-            
+
             //if data negative rollback else commit
             if (result1 && result2) {
                 tx.commit();
@@ -69,13 +72,4 @@ public class TccTransactionService {
         return RootContext.getXID();
     }
 
-
-    /**
-     * Sets tcc action two.
-     *
-     * @param tccActionTwo the tcc action two
-     */
-    public void setTccActionTwo(TccActionTwo tccActionTwo) {
-        this.tccActionTwo = tccActionTwo;
-    }
 }

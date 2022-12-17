@@ -67,7 +67,7 @@
         <!-- <module>springboot</module> -->
         <!-- <module>nacos</module> -->
         <!-- <module>springboot-dubbo-seata</module> -->
-        <!-- <module>tcc</module> -->
+        <module>tcc</module>
         <!-- <module>springcloud-jpa-seata</module> -->
         <!-- <module>nutzboot-dubbo-fescar</module> -->
         <!-- <module>ha</module> -->
