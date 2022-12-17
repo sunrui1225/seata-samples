@@ -15,18 +15,18 @@
  */
 package io.seata.samples.tcc.starter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.seata.common.util.StringUtils;
 import io.seata.samples.tcc.ApplicationKeeper;
 import io.seata.samples.tcc.action.ResultHolder;
-import io.seata.samples.tcc.action.impl.TccActionOneImpl;
-import io.seata.samples.tcc.action.impl.TccActionTwoImpl;
+import io.seata.samples.tcc.action.TccActionOne;
+import io.seata.samples.tcc.action.TccActionTwo;
 import io.seata.samples.tcc.service.TccTransactionService;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The type Local tcc transaction starter.
@@ -48,12 +48,12 @@ public class LocalTccTransactionStarter {
     /**
      * The Tcc action one.
      */
-    static TccActionOneImpl tccActionOne = null;
+    static TccActionOne tccActionOne = null;
 
     /**
      * The Tcc action two.
      */
-    static TccActionTwoImpl tccActionTwo = null;
+    static TccActionTwo tccActionTwo = null;
 
     /**
      * The entry point of application.
@@ -62,12 +62,12 @@ public class LocalTccTransactionStarter {
      * @throws InterruptedException the interrupted exception
      */
     public static void main(String[] args) throws InterruptedException {
-        applicationContext = new ClassPathXmlApplicationContext(new String[] {"spring/seata-tcc.xml"});
+        applicationContext = new ClassPathXmlApplicationContext(new String[]{"spring/seata-tcc.xml"});
 
-        tccTransactionService = (TccTransactionService)applicationContext.getBean("tccTransactionService");
+        tccTransactionService = (TccTransactionService) applicationContext.getBean("tccTransactionService");
 
-        tccActionOne = (TccActionOneImpl)applicationContext.getBean("tccActionOne");
-        tccActionTwo = (TccActionTwoImpl)applicationContext.getBean("tccActionTwo");
+        tccActionOne = (TccActionOne) applicationContext.getBean("tccActionOne");
+        tccActionTwo = (TccActionTwo) applicationContext.getBean("tccActionTwo");
 
         //分布式事务提交demo
         transactionCommitDemo();
@@ -99,7 +99,7 @@ public class LocalTccTransactionStarter {
         } catch (Throwable t) {
             Assert.isTrue(true, "分布式事务异常回滚");
         }
-        String txId = (String)map.get("xid");
+        String txId = (String) map.get("xid");
         Thread.sleep(1000L);
 
         Assert.isTrue("R".equals(ResultHolder.getActionOneResult(txId)), "tccActionOne commit failed");

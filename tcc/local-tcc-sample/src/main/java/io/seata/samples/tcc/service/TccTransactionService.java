@@ -27,6 +27,7 @@ import io.seata.spring.annotation.GlobalTransactional;
  *
  * @author zhangsen
  */
+@GlobalTransactional(timeoutMills=1000000)
 public class TccTransactionService {
 
     private TccActionOne tccActionOne;
@@ -38,7 +39,7 @@ public class TccTransactionService {
      *
      * @return string string
      */
-    @GlobalTransactional
+    @GlobalTransactional(timeoutMills=1000000)
     public String doTransactionCommit() {
         //第一个TCC 事务参与者
         boolean result = tccActionOne.prepare(null, 1);

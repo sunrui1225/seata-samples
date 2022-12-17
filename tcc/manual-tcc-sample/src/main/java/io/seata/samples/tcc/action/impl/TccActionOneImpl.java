@@ -15,8 +15,7 @@
  */
 package io.seata.samples.tcc.action.impl;
 
-import io.seata.commonapi.rm.tcc.api.BusinessActionContext;
-import io.seata.samples.tcc.action.ResultHolder;
+import io.seata.api.BusinessActionContext;
 import io.seata.samples.tcc.action.TccActionOne;
 
 /**
