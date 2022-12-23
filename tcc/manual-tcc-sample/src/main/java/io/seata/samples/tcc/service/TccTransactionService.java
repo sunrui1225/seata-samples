@@ -40,7 +40,7 @@ public class TccTransactionService {
      * @return string string
      */
 
-    public String doTransactionCommit() throws TransactionException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public String doTransactionCommit() throws Exception {
 
         SeataClient.init("tcc-sample", "my_test_tx_group");
 
@@ -51,10 +51,12 @@ public class TccTransactionService {
 
         try {
             tx.begin(60000, "testBiz");
+            
             TccActionOne seataClientProxyOne = SeataClient.createProxy(tccActionOne);
             boolean result1 = seataClientProxyOne.prepare(null, 1);
 
             TccActionTwo seataClientProxyTwo = SeataClient.createProxy(tccActionTwo);
+
             boolean result2 = seataClientProxyTwo.prepare(null, "A");
 
             //if data negative rollback else commit
