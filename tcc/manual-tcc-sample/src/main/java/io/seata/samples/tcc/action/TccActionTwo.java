@@ -34,7 +34,7 @@ public interface TccActionTwo {
      * @param b             the b
      * @return the boolean
      */
-    @TwoPhaseBusinessAction(name = "TccActionTwo", commitMethod = "commit", rollbackMethod = "rollback")
+    @TwoPhaseBusinessAction(name = "TccActionTwo", commitMethod = "commit", rollbackMethod = "rollback", commitArgsClasses = BusinessActionContext.class, rollbackArgsClasses = BusinessActionContext.class)
     public boolean prepare(BusinessActionContext actionContext, String b);
 
     /**
